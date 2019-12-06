@@ -1,8 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import "./App.css";
-
 // Actions
 
 // import { deleteTask } from "./redux/actions";
@@ -18,7 +16,7 @@ function TaskCard(props) {
         <button className="rounded-pill btn-primary">Watched</button>
       </td> */}
 
-      {/* onClick={() => props.deleteMovie(movie)} */}
+      {/* onClick={() => props.deleteTask(task.id)} */}
       <td>
         <button className="rounded-pill btn-danger">✕</button>
       </td>

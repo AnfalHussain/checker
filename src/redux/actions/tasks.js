@@ -50,10 +50,14 @@ export const deleteAllTasks = () => async dispatch => {
   }
 };
 
-export const fininshedTask = task => {
-  return {
-    type: FINISHED_TASK,
-    payload: task
+export const fininshedTask = taskID => {
+  return async dispatch => {
+    try {
+      const response = await instance.put(`status/${taskID}/`);
+      dispatch({ type: ADD_TASK, payload: response.data });
+    } catch (error) {
+      console.error(error);
+    }
   };
 };
 

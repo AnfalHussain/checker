@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
+//components
 import AddTask from "./Tasks/AddTask";
-
+import List from "./Tasks/TasksList";
 class HomePage extends Component {
-  componentDidMount() {
-    this.props.fetchTasks();
-  }
   render() {
     return (
       <div className="main">
@@ -31,6 +29,7 @@ class HomePage extends Component {
         <section>
           <div className="text-center mt-5">
             <AddTask />
+            <List />
           </div>
         </section>
       </div>
@@ -38,9 +37,4 @@ class HomePage extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  fetchTasks: () => {
-    dispatch(fetchTasks());
-  }
-});
-export default connect(null, mapDispatchToProps)(HomePage);
+export default HomePage;
