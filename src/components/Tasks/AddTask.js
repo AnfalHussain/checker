@@ -11,8 +11,27 @@ class AddTask extends Component {
 
   handleChange = event => {
     this.setState({
-      ipnut: event.target.value
+      input: event.target.value
     });
+  };
+
+  handleAdd = () => {
+    const task = {
+      name: this.state.input,
+      status: false
+    };
+
+    this.props.addTask(task);
+
+    this.setState({
+      input: ""
+    });
+  };
+
+  handleKeyDown = async event => {
+    if (["Enter"].includes(event.key)) {
+      this.handleAdd();
+    }
   };
 
   // add text field
@@ -23,16 +42,21 @@ class AddTask extends Component {
           className="mx-auto rounded-pill text-center"
           style={{ borderColor: "#3f9ff2" }}
           placeholder="Add a Task .."
+          name="input"
           onChange={this.handleChange}
+          onKeyDown={this.handleKeyDown}
           type="text"
+          value={this.state.input}
         />
 
         <button
           className="rounded"
           style={{ backgroundColor: "#3f9ff2", color: "white" }}
-          onClick={() => this.props.addTask(this.state.ipnut)}
+          onClick={() => {
+            this.handleAdd();
+          }}
         >
-          {console.log(this.state.ipnut)}+
+          +
         </button>
       </div>
     );

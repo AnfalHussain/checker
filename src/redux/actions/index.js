@@ -2,7 +2,6 @@ export {
   addTask,
   deleteTask,
   deleteAllTasks,
-  fininshedTask,
-  unfinishTask,
+  changeStateTask,
   fetchTasks
 } from "./tasks";

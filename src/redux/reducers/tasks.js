@@ -2,8 +2,7 @@ import {
   ADD_TASK,
   DELETE_TASK,
   FETCH_TASKS,
-  FINISHED_TASK,
-  UNFINISH_TASK
+  CHANGE_STATUS_TASK
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -14,6 +13,13 @@ const initialState = {
 
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    case ADD_TASK:
+      const newTask = payload;
+      return {
+        ...state,
+        tasks: [newTask, ...state.tasks]
+      };
+
     case FETCH_TASKS:
       const tasks = payload;
       return {
@@ -21,12 +27,15 @@ const reducer = (state = initialState, { type, payload }) => {
         tasks: tasks,
         loading: false
       };
-    case ADD_TASK:
-      const newTask = payload;
-      return {
-        ...state,
-        tasks: state.tasks.concat(newTask)
-      };
+
+    // case CHANGE_STATUS_TASK:
+    //   const id = payload;
+    //   const tempTasks = state.tasks.map(task => if (task.id === id))
+    //   return {
+    //     ...state,
+    //     tasks: state.tasks.concat(id)
+    //   };
+
     default:
       return state;
   }

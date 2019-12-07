@@ -3,13 +3,15 @@ import { connect } from "react-redux";
 
 // Components
 import TaskCard from "./TaskCard.js";
-
 import { fetchTasks } from "../../redux/actions";
 
 class TasksList extends Component {
-  componentDidMount() {
-    this.props.fetchTasks();
+  componentDidUpdate(prevProps) {
+    if (this.props.tasks !== prevProps.tasks) {
+      this.props.fetchTasks();
+    }
   }
+
   render() {
     //Unfinished tasks
     const toDoTasks = this.props.tasks.filter(task => task.status === false);
@@ -26,17 +28,17 @@ class TasksList extends Component {
 
     return (
       <>
-        <div>
-          <h1>To Do:</h1>
+        <div className="card mt-5">
+          <h2 style={{ paddingTop: 50, fontFamily: "Futura" }}>To Do:</h2>
         </div>
-        <div>
+        <div style={{ paddingLeft: 500 }}>
           <table className="table">{toDoTasksRows}</table>
         </div>
 
-        <div>
-          <h1>Done:</h1>
+        <div className="card">
+          <h2 style={{ paddingTop: 50, fontFamily: "Futura" }}>Done:</h2>
 
-          <div>
+          <div style={{ paddingLeft: 500 }}>
             <table className="table">{doneTasksRows}</table>
           </div>
         </div>
@@ -56,5 +58,6 @@ const mapStateToProps = state => {
     tasks: state.rootTasks.tasks
   };
 };
+// export default connect(mapStateToProps)(TasksList);
 
 export default connect(mapStateToProps, mapDispatchToProps)(TasksList);
