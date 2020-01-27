@@ -34,8 +34,8 @@ export const addTask = task => {
 export const deleteTask = taskID => async dispatch => {
   try {
     const res = await instance.delete(`delete/${taskID}/`);
-    const task = res.data;
-    dispatch({ type: DELETE_TASK, payload: task });
+    dispatch({ type: DELETE_TASK, payload: taskID });
+    // dispatch(fetchTasks());
   } catch (error) {
     console.error(error);
   }
@@ -44,18 +44,27 @@ export const deleteTask = taskID => async dispatch => {
 export const deleteAllTasks = () => async dispatch => {
   try {
     const res = await instance.delete(`deleteall/`);
-    const task = res.data;
-    dispatch({ type: DELETE_ALL_TASKS, payload: task });
+    const tasks = res.data;
+    console.log("response.data ", tasks);
+
+    dispatch({ type: DELETE_ALL_TASKS, payload: tasks });
   } catch (error) {
     console.error(error);
   }
 };
 
-export const changeStateTask = taskID => {
+export const changeStateTask = (taskID, newState) => {
   return async dispatch => {
     try {
-      const response = await instance.put(`status/${taskID}/`);
-      dispatch({ type: CHANGE_STATUS_TASK, payload: response.data });
+      const response = await instance.put(`status/${taskID}/`, newState);
+      // we don't need to use the response because it is a state only not an id
+
+      console.log("newState", newState);
+      console.log("response.data ", response.data);
+      if (response.data === newState) {
+        dispatch(fetchTasks());
+      }
+      dispatch({ type: CHANGE_STATUS_TASK, payload: taskID });
     } catch (error) {
       console.error(error);
     }

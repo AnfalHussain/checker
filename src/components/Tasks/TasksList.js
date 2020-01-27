@@ -3,31 +3,51 @@ import { connect } from "react-redux";
 
 // Components
 import TaskCard from "./TaskCard.js";
-import { fetchTasks } from "../../redux/actions";
+import { fetchTasks, deleteAllTasks } from "../../redux/actions";
 
 class TasksList extends Component {
+  state = {
+    toDoTasksArray: this.props.tasks.filter(task => task.status === false),
+    doneTasksArray: this.props.tasks.filter(task => task.status === true)
+  };
   componentDidUpdate(prevProps) {
     if (this.props.tasks !== prevProps.tasks) {
-      this.props.fetchTasks();
+      // this.props.fetchTasks();
+      console.log(" inside if (this.props.tasks !== prevProps.tasks) ");
+      let newToDo = this.props.tasks.filter(task => task.status === false);
+      let newDone = this.props.tasks.filter(task => task.status === true);
+
+      this.setState({ toDoTasksArray: newToDo, doneTasksArray: newDone });
     }
   }
 
   render() {
     //Unfinished tasks
-    const toDoTasks = this.props.tasks.filter(task => task.status === false);
+    const toDoTasks = this.state.toDoTasksArray;
     const toDoTasksRows = toDoTasks.map(task => (
       <TaskCard task={task} key={task.id} />
     ));
 
     //Finished tasks
 
-    const doneTasks = this.props.tasks.filter(task => task.status === true);
+    const doneTasks = this.state.doneTasksArray;
     const doneTasksRows = doneTasks.map(task => (
       <TaskCard task={task} key={task.id} />
     ));
 
     return (
       <>
+        <div className="card mt-5">
+          <button
+            className="rounded-pill btn"
+            onClick={() => this.props.deleteAllTasks()}
+          >
+            <h2 style={{ paddingTop: 50, fontFamily: "Futura", color: "blue" }}>
+              Delete All Tasks{" "}
+            </h2>
+          </button>
+        </div>
+
         <div className="card mt-5">
           <h2 style={{ paddingTop: 50, fontFamily: "Futura" }}>To Do:</h2>
         </div>
@@ -49,7 +69,8 @@ class TasksList extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchTasks: () => dispatch(fetchTasks())
+    fetchTasks: () => dispatch(fetchTasks()),
+    deleteAllTasks: () => dispatch(deleteAllTasks())
   };
 };
 

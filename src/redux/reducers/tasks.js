@@ -2,7 +2,8 @@ import {
   ADD_TASK,
   DELETE_TASK,
   FETCH_TASKS,
-  CHANGE_STATUS_TASK
+  CHANGE_STATUS_TASK,
+  DELETE_ALL_TASKS
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -28,13 +29,30 @@ const reducer = (state = initialState, { type, payload }) => {
         loading: false
       };
 
-    // case CHANGE_STATUS_TASK:
-    //   const id = payload;
-    //   const tempTasks = state.tasks.map(task => if (task.id === id))
-    //   return {
-    //     ...state,
-    //     tasks: state.tasks.concat(id)
-    //   };
+    case DELETE_TASK:
+      const taskID = payload;
+      return {
+        ...state,
+        tasks: [...state.tasks.filter(task => task.id !== taskID)]
+      };
+
+    case DELETE_ALL_TASKS:
+      return {
+        ...state,
+        tasks: []
+      };
+
+    case CHANGE_STATUS_TASK:
+      // const id = payload;
+
+      // const tempTasks = state.tasks.map(task =>  (task.id === id))
+      return {
+        ...state,
+        tasks: state.tasks
+        // tasks: [...state.tasks.map(task => task.id !== movieToSetToWatched ? movie : { ...movie, done: true })]
+
+        // tasks: state.tasks.concat(id)
+      };
 
     default:
       return state;
